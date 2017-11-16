@@ -1,8 +1,34 @@
 const { executeQuery } = require('../db');
 
-const getHost = id => executeQuery(`SELECT * FROM hosts WHERE id=${id}`).then(data => data[0]);
-const addHost = object => executeQuery(`INSERT INTO hosts VALUES ${object}`);
-const getAllHosts = () => executeQuery('SELECT * FROM hosts');
+const getHost = async (id) => {
+  try {
+    const data = await executeQuery(`SELECT * FROM hosts WHERE id=${id}`);
+    return data.rows[0];
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+};
+
+const addHost = async (object) => {
+  try {
+    const data = await executeQuery(`INSERT INTO hosts VALUES ${object} RETURNING *`);
+    return data.rows[0];
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+};
+
+const getAllHosts = async () => {
+  try {
+    const data = await executeQuery('SELECT * FROM hosts');
+    return data.rows;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+};
 
 module.exports = {
   getHost,

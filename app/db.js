@@ -18,9 +18,7 @@ pool.on('error', (err, client) => {
 });
 
 function executeQuery(query) {
-  return pool.query(query)
-    .then(res => res.rows)
-    .catch(err => console.log(err));
+  return pool.query(query);
 }
 
 module.exports = {
