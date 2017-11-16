@@ -1,0 +1,17 @@
+{
+  "name": "wt-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "config": "^1.28.1",
+    "graphql": "^0.11.7",
+    "graphql-tools": "^2.7.2",
+    "pg": "^7.4.0"
+  }
+}
