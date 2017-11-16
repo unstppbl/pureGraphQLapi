@@ -1,9 +1,9 @@
 const { executeQuery } = require('../db');
 
-const getResult = async (id) => {
+const getResults = async (id) => {
   try {
-    const data = await executeQuery(`SELECT * FROM results WHERE id=${id}`);
-    return data.rows[0];
+    const data = await executeQuery(`SELECT * FROM results WHERE object_id=${id}`);
+    return data.rows;
   } catch (err) {
     console.log(err);
     return null;
@@ -21,6 +21,6 @@ const getAllResults = async () => {
 };
 
 module.exports = {
-  getResult,
+  getResults,
   getAllResults,
 };

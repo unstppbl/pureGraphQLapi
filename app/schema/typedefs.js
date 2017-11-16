@@ -6,7 +6,7 @@ const {
   GraphQLNonNull,
 } = require('graphql');
 const { getHost, getAllHosts } = require('../controllers/hosts');
-const { getResult, getAllResults } = require('../controllers/results');
+const { getResults, getAllResults } = require('../controllers/results');
 
 const Host = new GraphQLObjectType({
   name: 'Host',
@@ -16,6 +16,12 @@ const Host = new GraphQLObjectType({
     },
     object: {
       type: GraphQLString,
+    },
+    results: {
+      type: new GraphQLList(Result),
+      resolve(parent) {
+        return getResults(parent.id);
+      },
     },
   }),
 });
@@ -31,6 +37,12 @@ const Result = new GraphQLObjectType({
     },
     message: {
       type: GraphQLString,
+    },
+    object: {
+      type: Host,
+      resolve(parent) {
+        return getHost(parent.object_id);
+      },
     },
   }),
 });
@@ -55,15 +67,15 @@ const Query = new GraphQLObjectType({
         return getAllHosts();
       },
     },
-    result: {
-      type: Result,
+    results: {
+      type: new GraphQLList(Result),
       args: {
         id: {
           type: new GraphQLNonNull(GraphQLID),
         },
       },
       resolve(parent, { id }) {
-        return getResult(id);
+        return getResults(id);
       },
     },
     allResults: {
