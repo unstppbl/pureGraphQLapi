@@ -46,13 +46,45 @@ const Result = new GraphQLObjectType({
       type: GraphQLID,
     },
     message: {
-      type: GraphQLString,
+      type: Message,
+      resolve(parent) {
+        console.log(parent.message);
+        return JSON.parse(parent.message);
+      },
     },
     object: {
       type: Host,
       resolve(parent) {
         return getHost(parent.object_id);
       },
+    },
+  }),
+});
+
+const Message = new GraphQLObjectType({
+  name: 'Message',
+  description: 'Parsed result fields',
+  fields: () => ({
+    framework_name: {
+      type: GraphQLString,
+    },
+    framework_type: {
+      type: GraphQLString,
+    },
+    framework_version: {
+      type: GraphQLString,
+    },
+    server_name: {
+      type: GraphQLString,
+    },
+    server_version: {
+      type: GraphQLString,
+    },
+    components: {
+      type: new GraphQLList(GraphQLString),
+    },
+    https_redirected: {
+      type: GraphQLString,
     },
   }),
 });
