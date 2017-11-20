@@ -2,7 +2,7 @@ const { executeQuery } = require('../db');
 
 const getHost = async (id) => {
   try {
-    const data = await executeQuery(`SELECT * FROM hosts WHERE id=${id}`);
+    const data = await executeQuery('SELECT * FROM hosts WHERE id=$1', [id]);
     return data.rows[0];
   } catch (err) {
     console.log(err);
@@ -22,7 +22,7 @@ const getAllHosts = async () => {
 
 const addHost = async (object) => {
   try {
-    const data = await executeQuery(`INSERT INTO hosts (object) VALUES ('${object}') RETURNING *`);
+    const data = await executeQuery('INSERT INTO hosts (object) VALUES ($1) RETURNING *', [object]);
     return data.rows[0];
   } catch (err) {
     console.log(err);
@@ -32,7 +32,7 @@ const addHost = async (object) => {
 
 const deleteHost = async (id) => {
   try {
-    const data = await executeQuery(`DELETE FROM hosts WHERE id=${id} RETURNING *`);
+    const data = await executeQuery('DELETE FROM hosts WHERE id=$1 RETURNING *', [id]);
     return data.rows[0];
   } catch (err) {
     console.log(err);

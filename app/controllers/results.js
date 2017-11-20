@@ -2,7 +2,7 @@ const { executeQuery } = require('../db');
 
 const getResults = async (id) => {
   try {
-    const data = await executeQuery(`SELECT * FROM results WHERE object_id=${id}`);
+    const data = await executeQuery('SELECT * FROM results WHERE object_id=$1', [id]);
     return data.rows;
   } catch (err) {
     console.log(err);

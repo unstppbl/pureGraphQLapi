@@ -17,8 +17,8 @@ pool.on('error', (err, client) => {
   process.exit(-1);
 });
 
-function executeQuery(query) {
-  return pool.query(query);
+function executeQuery(query, args) {
+  return pool.query(query, args);
 }
 
 module.exports = {
