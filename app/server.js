@@ -3,6 +3,7 @@ const http = require('http');
 const messages = require('./messages');
 const { graphql } = require('graphql');
 const Schema = require('./schema/schema');
+const loaders = require('./loaders');
 
 const port = config.get('server.port');
 const server = http.createServer().listen(port, () => console.log(`Server listening at: ${port}`));
@@ -19,7 +20,7 @@ server.on('request', (req, resp) => {
       }
     });
     req.on('end', () => {
-      graphql(Schema, query).then((data) => {
+      graphql({ schema: Schema, source: query, contextValue: loaders }).then((data) => {
         messages.sendJson(req, resp, data);
       });
     });

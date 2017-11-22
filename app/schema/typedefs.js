@@ -6,13 +6,11 @@ const {
   GraphQLNonNull,
 } = require('graphql');
 const {
-  getHost,
   getAllHosts,
   addHost,
   deleteHost,
 } = require('../controllers/hosts');
 const {
-  getResults,
   getAllResults,
 } = require('../controllers/results');
 
@@ -28,8 +26,8 @@ const Host = new GraphQLObjectType({
     },
     results: {
       type: new GraphQLList(Result),
-      resolve(parent) {
-        return getResults(parent.id);
+      resolve(parent, args, { resultsLoader }) {
+        return resultsLoader.load(parent.id);
       },
     },
   }),
@@ -48,14 +46,13 @@ const Result = new GraphQLObjectType({
     message: {
       type: Message,
       resolve(parent) {
-        console.log(parent.message);
         return JSON.parse(parent.message);
       },
     },
     object: {
       type: Host,
-      resolve(parent) {
-        return getHost(parent.object_id);
+      resolve(parent, args, { hostsLoader }) {
+        return hostsLoader.load(parent.object_id);
       },
     },
   }),
@@ -101,8 +98,8 @@ const Query = new GraphQLObjectType({
           type: new GraphQLNonNull(GraphQLID),
         },
       },
-      resolve(parent, { id }) {
-        return getHost(id);
+      resolve(parent, { id }, { hostsLoader }) {
+        return hostsLoader.load(id);
       },
     },
     allHosts: {
@@ -113,22 +110,22 @@ const Query = new GraphQLObjectType({
       },
     },
     results: {
-      type: new GraphQLList(Result),
+      type: Result,
       description: 'Fetch results for one host from db',
       args: {
         id: {
           type: new GraphQLNonNull(GraphQLID),
         },
       },
-      resolve(parent, { id }) {
-        return getResults(id);
+      resolve(parent, { id }, { resultsLoader }) {
+        return resultsLoader.load(id);
       },
     },
     allResults: {
       type: new GraphQLList(Result),
       description: 'Fetch all results from db',
-      resolve(parent, { id }) {
-        return getAllResults(id);
+      resolve() {
+        return getAllResults();
       },
     },
   }),

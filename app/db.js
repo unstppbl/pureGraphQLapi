@@ -18,6 +18,7 @@ pool.on('error', (err, client) => {
 });
 
 function executeQuery(query, args) {
+  console.log(query);
   return pool.query(query, args);
 }
 

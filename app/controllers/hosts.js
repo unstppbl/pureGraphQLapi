@@ -2,6 +2,7 @@ const { executeQuery } = require('../db');
 
 const getHost = async (id) => {
   try {
+    console.log('request to db');
     const data = await executeQuery('SELECT * FROM hosts WHERE id=$1', [id]);
     return data.rows[0];
   } catch (err) {
