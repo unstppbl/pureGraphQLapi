@@ -143,7 +143,8 @@ const Mutation = new GraphQLObjectType({
           type: new GraphQLNonNull(GraphQLID),
         },
       },
-      resolve(parent, { id }) {
+      resolve(parent, { id }, { hostsLoader }) {
+        hostsLoader.clear(id);
         return deleteHost(id);
       },
     },
