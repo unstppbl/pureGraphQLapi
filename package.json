@@ -1,12 +1,12 @@
 {
-  "name": "wt-api",
+  "name": "pure-graphql",
   "version": "1.0.0",
-  "description": "",
+  "description": "Pure graphql api with postgresql as backend db",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "altsab",
   "license": "ISC",
   "dependencies": {
     "config": "^1.28.1",

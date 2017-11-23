@@ -110,7 +110,7 @@ const Query = new GraphQLObjectType({
       },
     },
     results: {
-      type: Result,
+      type: new GraphQLList(Result),
       description: 'Fetch results for one host from db',
       args: {
         id: {

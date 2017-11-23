@@ -1,6 +1,6 @@
 const DataLoader = require('dataloader');
 const { executeQuery } = require('./db');
-const { keyBy } = require('lodash');
+const { groupBy, keyBy } = require('lodash');
 
 const hostsLoader = new DataLoader(async (keys) => {
   const keysList = keys.join(', ');
@@ -17,8 +17,8 @@ const hostsLoader = new DataLoader(async (keys) => {
 const resultsLoader = new DataLoader(async (keys) => {
   const keysList = keys.join(', ');
   try {
-    const data = await executeQuery(`SELECT * FROM results WHERE id IN (${keysList}) ORDER BY array_position(ARRAY[${keysList}], id)`);
-    const resultsById = keyBy(data.rows, 'id');
+    const data = await executeQuery(`SELECT * FROM results WHERE object_id IN (${keysList}) ORDER BY array_position(ARRAY[${keysList}], object_id)`);
+    const resultsById = groupBy(data.rows, 'object_id');
     return keys.map(id => resultsById[id]);
   } catch (err) {
     console.log(err);

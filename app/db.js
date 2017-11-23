@@ -18,6 +18,7 @@ pool.on('error', (err, client) => {
 });
 
 function executeQuery(query, args) {
+  console.log('[*] - execution of query (psql)');
   return pool.query(query, args);
 }
 
